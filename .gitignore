@@ -1,0 +1,12 @@
+*.nupkg
+*.sln.docstates
+*.suo
+*.user
+*.vsp
+Thumbs.db
+[Bb]in
+[Dd]ebug*/
+obj/
+[Rr]elease*/
+_ReSharper*/
+*.orig
