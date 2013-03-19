@@ -7,6 +7,8 @@ Thumbs.db
 [Bb]in
 [Dd]ebug*/
 obj/
+packages/*
+!packages/repositories.config
 [Rr]elease*/
 _ReSharper*/
 *.orig

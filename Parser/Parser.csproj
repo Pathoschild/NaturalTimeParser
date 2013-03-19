@@ -32,6 +32,7 @@
   <ItemGroup>
     <Compile Include="DateTimeExtensions.cs" />
     <Compile Include="Plugins\ArithmeticTimePlugin.cs" />
+    <Compile Include="Plugins\RelativeTimeUnit.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TimeParseFormatException.cs" />
     <Compile Include="TimeParser.cs" />

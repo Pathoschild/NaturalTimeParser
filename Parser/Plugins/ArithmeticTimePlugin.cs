@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text.RegularExpressions;
 using Pathoschild.NaturalTimeParser.Parser.Tokenization;
 
@@ -13,45 +14,14 @@ namespace Pathoschild.NaturalTimeParser.Parser.Plugins
 		** Properties
 		*********/
 		/// <summary>The regular expression that matches the date tokens in the input expression.</summary>
-		protected readonly Regex ParsePattern = new Regex(@"^(?<expression>\s*((?<sign>[\+\-]{0,1})\s*(?<value>\d*))?\s*\b(?<unit>[a-zA-Z]+)\b(?<negate>(\s*\bago\b)?)\s*)+", RegexOptions.Compiled | RegexOptions.ExplicitCapture);
-
-		/// <summary>The arbitrary key which identifies this plugin.</summary>
-		protected const string Key = "Arithmetic";
+		protected readonly Regex ParsePattern = new Regex(@"^(?<expression>\s*((?<sign>[\+\-]{0,1})\s*(?<value>\d*))?\s*\b(?<unit>\w+)\b(?<negate>(\s*\bago\b)?)\s*)+", RegexOptions.Compiled | RegexOptions.ExplicitCapture);
 
 
 		/*********
 		** Accessors
 		*********/
-		/// <summary>A supported relative time unit.</summary>
-		public enum RelativeTimeUnit
-		{
-			/// <summary>A unit of one second.</summary>
-			Seconds,
-
-			/// <summary>A unit of one minute.</summary>
-			Minutes,
-
-			/// <summary>A unit of one hour.</summary>
-			Hours,
-
-			/// <summary>A unit of one day.</summary>
-			Days,
-
-			/// <summary>A unit of seven days.</summary>
-			Weeks,
-
-			/// <summary>A unit of fourteen days.</summary>
-			Fortnights,
-
-			/// <summary>A unit of one month.</summary>
-			Months,
-
-			/// <summary>A unit of one year.</summary>
-			Years,
-
-			/// <summary>An unknown unit of time.</summary>
-			Unknown
-		};
+		/// <summary>The arbitrary key which identifies this plugin.</summary>
+		public const string Key = "Arithmetic";
 
 		/// <summary>The supported time units.</summary>
 		/// <remarks>This provides a case-insensitive unit lookup when parsing relative time items. The optional -s suffix is stripped before this lookup.</remarks>
@@ -64,6 +34,7 @@ namespace Pathoschild.NaturalTimeParser.Parser.Plugins
 			{ "hour", RelativeTimeUnit.Hours },
 			{ "day", RelativeTimeUnit.Days },
 			{ "week", RelativeTimeUnit.Weeks },
+			{ "fortnight", RelativeTimeUnit.Fortnights},
 			{ "month", RelativeTimeUnit.Months },
 			{ "year", RelativeTimeUnit.Years }
 		};
@@ -106,7 +77,7 @@ namespace Pathoschild.NaturalTimeParser.Parser.Plugins
 					yield break; // unsupported unit
 
 				// return token
-				yield return new TimeToken(ArithmeticTimePlugin.Key, expression, unit.ToString(), value);
+				yield return new TimeToken(ArithmeticTimePlugin.Key, expression, value.ToString(CultureInfo.InvariantCulture), unit);
 			}
 		}
 
@@ -117,10 +88,10 @@ namespace Pathoschild.NaturalTimeParser.Parser.Plugins
 		public DateTime? TryApply(TimeToken token, DateTime date)
 		{
 			// parse token
-			if (token.Parser != ArithmeticTimePlugin.Key || !(token.Context is int))
+			if (token.Parser != ArithmeticTimePlugin.Key || !(token.Context is RelativeTimeUnit))
 				return null;
-			RelativeTimeUnit unit = (RelativeTimeUnit)Enum.Parse(typeof(RelativeTimeUnit), token.Value);
-			int value = (int)token.Context;
+			RelativeTimeUnit unit = (RelativeTimeUnit)token.Context;
+			int value = int.Parse(token.Value);
 
 			// apply
 			switch (unit)
@@ -162,9 +133,20 @@ namespace Pathoschild.NaturalTimeParser.Parser.Plugins
 		/// <param name="unit">The localized time unit.</param>
 		protected RelativeTimeUnit ParseUnit(string unit)
 		{
-			return this.SupportedUnits.ContainsKey(unit)
-				? this.SupportedUnits[unit]
-				: RelativeTimeUnit.Unknown;
+			// exact match
+			if (this.SupportedUnits.ContainsKey(unit))
+				return this.SupportedUnits[unit];
+
+			// without -s suffix
+			if (unit.EndsWith("s", StringComparison.InvariantCultureIgnoreCase))
+			{
+				unit = unit.Substring(0, unit.Length - 1);
+				if (this.SupportedUnits.ContainsKey(unit))
+					return this.SupportedUnits[unit];
+			}
+
+			// unknown unit
+			return RelativeTimeUnit.Unknown;
 		}
 	}
 }
