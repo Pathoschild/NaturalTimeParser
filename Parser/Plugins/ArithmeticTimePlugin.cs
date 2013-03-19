@@ -5,7 +5,7 @@ using Pathoschild.NaturalTimeParser.Parser.Tokenization;
 
 namespace Pathoschild.NaturalTimeParser.Parser.Plugins
 {
-	/// <summary>Parses an input string into a set of tokens.</summary>
+	/// <summary>Parses a natural time format string containing time arithmetic (like "+2 days") into a set of tokens.</summary>
 	public class ArithmeticTimePlugin : IParseTimeStrings, IApplyTimeTokens
 	{
 		/*********
@@ -14,15 +14,15 @@ namespace Pathoschild.NaturalTimeParser.Parser.Plugins
 		/// <summary>The regular expression that matches the date tokens in the input expression.</summary>
 		protected Regex ParsePattern = new Regex(@"^(?<expression>\s*(?<sign>[\+\-]{0,1})\s*(?<value>\d+)\s*\b(?<unit>[a-zA-Z]+)\b)+$", RegexOptions.Compiled);
 
-		/// <summary>The unique token type which identifies this plugin's tokens.</summary>
-		protected const string TokenType = "Arithmetic";
+		/// <summary>The arbitrary key which identifies this plugin.</summary>
+		protected const string Key = "Arithmetic";
 
 
 		/*********
 		** Public methods
 		*********/
 		/// <summary>Scan the front of an input string to read a set of matching tokens.</summary>
-		/// <param name="input">The input string containing time tokens.</param>
+		/// <param name="input">The natural time format string.</param>
 		/// <returns>Returns a set of matching tokens, or an empty collection if no supported token was found.</returns>
 		public IEnumerable<TimeToken> Tokenize(string input)
 		{
@@ -40,18 +40,18 @@ namespace Pathoschild.NaturalTimeParser.Parser.Plugins
 				if (match.Groups["sign"].Captures[i].Value == "-")
 					value *= -1;
 				string unit = match.Groups["unit"].Captures[i].Value;
-				yield return new TimeToken(ArithmeticTimePlugin.TokenType, expression, unit, value);
+				yield return new TimeToken(ArithmeticTimePlugin.Key, expression, unit, value);
 			}
 		}
 
-		/// <summary>Apply a token to a date value.</summary>
-		/// <param name="token">The time token to apply.</param>
+		/// <summary>Apply a natural time token to a date value.</summary>
+		/// <param name="token">The natural time token to apply.</param>
 		/// <param name="date">The date value to apply the token to.</param>
 		/// <returns>Returns the modified date, or <c>null</c> if the token is not supported.</returns>
 		public DateTime? TryApply(TimeToken token, DateTime date)
 		{
 			// parse token
-			if (token.Type != ArithmeticTimePlugin.TokenType || !(token.Context is int))
+			if (token.Parser != ArithmeticTimePlugin.Key || !(token.Context is int))
 				return null;
 			string unit = token.Value.ToLower();
 			int value = (int)token.Context;

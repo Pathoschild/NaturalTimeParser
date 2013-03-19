@@ -116,7 +116,7 @@ namespace Pathoschild.NaturalTimeParser.Parser
 					}
 				}
 				if (!matched)
-					throw new InvalidOperationException(String.Format("There is no time applicator plugin which recognizes the token '{0}'. The parsed type is '{1}' with a value of '{2}'.", token.Match, token.Type, token.Value));
+					throw new InvalidOperationException(String.Format("There is no time applicator plugin which recognizes the token '{0}'. The parsed type is '{1}' with a value of '{2}'.", token.Match, token.Parser, token.Value));
 			}
 
 			return date;

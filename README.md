@@ -35,8 +35,7 @@ The parsing is provided by a set of plugins which implement `IParseTimeStrings` 
   portion is not recognized by any of the plugins (in which case a `TimeParseFormatException` is
   thrown).
 * `IApplyTimeTokens` plugins are called to apply a token to a date. For example, the
-  `TimeOffsetPlugin` applies a token like `+3 days` by returning `date.AddDays(3)`. The
-  `NamedTimePlugin` applies a token like `now` by returning `DateTime.Now`.
+  `ArithmeticTimePlugin` applies a token like `+3 days` by returning `date.AddDays(3)`.
   
 New plugins can be added easily:
 ```c#
