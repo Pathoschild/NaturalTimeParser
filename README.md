@@ -8,8 +8,9 @@ This is mainly a proof of concept so far. Contributions to make it more usable i
 welcome.
 
 ## Usage
-Download the `Pathoschild.NaturalTimeParser` NuGet package (TODO) and reference the
-`Pathoschild.NaturalTimeParser` namespace. This lets you apply a natural offset to a date:
+Download the [`Pathoschild.NaturalTimeParser` NuGet package](https://nuget.org/packages/Pathoschild.NaturalTimeParser/)
+and reference the `Pathoschild.NaturalTimeParser` namespace. This lets you apply a natural offset
+to a date:
 ```c#
    // both lines are equivalent
    DateTime.Now.Offset("2 years ago");
