@@ -18,7 +18,8 @@ to a date:
 ```
 
 ### Relative time units (date arithmetic)
-The parser has full support for [relative time units](http://www.gnu.org/software/tar/manual/html_node/Relative-items-in-date-strings.html#SEC125). For example, the following formats are supported:
+The parser has full support for [relative time units](http://www.gnu.org/software/tar/manual/html_node/Relative-items-in-date-strings.html#SEC125).
+For example, the following formats are supported:
 
 * `1 year ago`
 * `-2 years`
@@ -30,6 +31,27 @@ You can also chain relative units:
 * `1 year 2 months` (14 months from now)
 * `1 year -2 fortnights` (almost 11 months from now)
 * `1 year ago 1 year` (today; equivalent to `-1 year +1 year`)
+
+### Integrated with SmartFormat
+The parser is also available as a plugin for [SmartFormat.NET](https://github.com/scottrippey/SmartFormat.NET)
+through the `Pathoschild.NaturalTimeParser.SmartFormat` NuGet package. SmartFormat is a string
+composition library that enables advanced token replacement. For example, this lets us format
+messages like this:
+```c#
+   SmartFormat.Default.AddExtensionsForNaturalTime();
+   string message = "Your trial will expire in 30 days (on {Today:yyyy-MM-dd|+30 days}).";
+   message = SmartFormat.Default.Format(message); // "Your trial will expire in 30 days (on 2013-06-01).";
+```
+
+The plugin adds four custom tokens (`{Today}`/`{TodayUTC}` for the current local/UTC date, and
+`{Now}`/`{NowUTC}` for the current local/UTC date & time) and adds support for applying relative
+time units to any date. For example, you can format an arbitrary date token:
+```c#
+   SmartFormat.Default.AddExtensionsForNaturalTime();
+   string message = "Your trial will expire in a long time (on {ExpiryDate:yyyy-MM-dd|+30 days}).";
+   message = SmartFormat.Default.Format(message, new { ExpiryDate = new DateTime(2050, 01, 01) }); // "Your trial will expire in a long time (on 2050-01-31).";
+```
+
 
 ## Extending support
 ### Localization

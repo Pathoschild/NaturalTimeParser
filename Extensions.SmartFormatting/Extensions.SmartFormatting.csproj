@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{EEB818B6-3542-41F8-AFCA-180A3DBA8CC5}</ProjectGuid>
+    <ProjectGuid>{8F057237-1541-4743-A6F4-925AAC2E01E3}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Pathoschild.NaturalTimeParser.Tests</RootNamespace>
-    <AssemblyName>Pathoschild.NaturalTimeParser.Tests</AssemblyName>
+    <RootNamespace>Pathoschild.NaturalTimeParser.Extensions.SmartFormatting</RootNamespace>
+    <AssemblyName>Pathoschild.NaturalTimeParser.Extensions.SmartFormatting</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
@@ -32,36 +32,29 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Extensions\SmartFormattingTests.cs" />
-    <Compile Include="Plugins\ArithmeticTimePluginTests.cs" />
+    <Compile Include="NaturalDateFormatter.cs" />
+    <Compile Include="NaturalDateSource.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TestHelpers.cs" />
-    <Compile Include="TimeParserTests.cs" />
+    <Compile Include="SmartFormatterExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="nunit.framework">
-      <HintPath>..\packages\NUnit.2.6.2\lib\nunit.framework.dll</HintPath>
-    </Reference>
+    <ProjectReference Include="..\Parser\Parser.csproj">
+      <Project>{5f4a5633-aa16-4944-b344-3e6ec55eb9e4}</Project>
+      <Name>Parser</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
     <Reference Include="SmartFormat">
       <HintPath>..\packages\SmartFormat.NET.1.0.0.0\lib\net35-Client\SmartFormat.dll</HintPath>
     </Reference>
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Extensions.SmartFormatting.nuspec" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Extensions.SmartFormatting\Extensions.SmartFormatting.csproj">
-      <Project>{8F057237-1541-4743-A6F4-925AAC2E01E3}</Project>
-      <Name>Extensions.SmartFormatting</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Parser\Parser.csproj">
-      <Project>{5f4a5633-aa16-4944-b344-3e6ec55eb9e4}</Project>
-      <Name>Parser</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
