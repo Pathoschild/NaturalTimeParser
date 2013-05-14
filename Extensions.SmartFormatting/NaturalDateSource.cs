@@ -16,7 +16,7 @@ namespace Pathoschild.NaturalTimeParser.Extensions.SmartFormatting
 		public void EvaluateSelector(object current, Selector selector, ref bool handled, ref object result, FormatDetails formatDetails)
 		{
 			string token = selector.Text.ToLower();
-			switch (selector.Text)
+			switch (token)
 			{
 				case "now":
 					result = DateTime.Now;

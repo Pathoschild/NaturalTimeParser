@@ -38,18 +38,18 @@ through the `Pathoschild.NaturalTimeParser.SmartFormat` NuGet package. SmartForm
 composition library that enables advanced token replacement. For example, this lets us format
 messages like this:
 ```c#
-   SmartFormat.Default.AddExtensionsForNaturalTime();
+   SmartFormatter formatter = Smart.CreateDefaultSmartFormat().AddExtensionsForNaturalTime();
    string message = "Your trial will expire in 30 days (on {Today:yyyy-MM-dd|+30 days}).";
-   message = SmartFormat.Default.Format(message); // "Your trial will expire in 30 days (on 2013-06-01).";
+   message = formatter.Format(message); // "Your trial will expire in 30 days (on 2013-06-01).";
 ```
 
 The plugin adds four custom tokens (`{Today}`/`{TodayUTC}` for the current local/UTC date, and
 `{Now}`/`{NowUTC}` for the current local/UTC date & time) and adds support for applying relative
 time units to any date. For example, you can format an arbitrary date token:
 ```c#
-   SmartFormat.Default.AddExtensionsForNaturalTime();
+   SmartFormatter formatter = Smart.CreateDefaultSmartFormat().AddExtensionsForNaturalTime();
    string message = "Your trial will expire in a long time (on {ExpiryDate:yyyy-MM-dd|+30 days}).";
-   message = SmartFormat.Default.Format(message, new { ExpiryDate = new DateTime(2050, 01, 01) }); // "Your trial will expire in a long time (on 2050-01-31).";
+   message = formatter.Format(message, new { ExpiryDate = new DateTime(2050, 01, 01) }); // "Your trial will expire in a long time (on 2050-01-31).";
 ```
 
 
