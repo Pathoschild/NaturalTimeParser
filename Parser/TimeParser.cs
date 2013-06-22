@@ -39,6 +39,33 @@ namespace Pathoschild.NaturalTimeParser.Parser
 			return this.Parse(input, DateTime.UtcNow);
 		}
 
+		/// <summary>Parse a date input string matching a natural name like 'today'.</summary>
+		/// <param name="token">The date name. Accepted values are today/todayUTC (current date) and now/nowUTC (current datetime).</param>
+		/// <returns>The generated date, or <c>null</c> if the token name is not supported.</returns>
+		public DateTime? ParseName(string token)
+		{
+			if (token == null)
+				return null;
+			token = token.Trim().ToLower();
+			switch (token)
+			{
+				case "now":
+					return DateTime.Now;
+
+				case "today":
+					return DateTime.Now.Date;
+
+				case "nowutc":
+					return DateTime.UtcNow;
+
+				case "todayutc":
+					return DateTime.UtcNow.Date;
+
+				default:
+					return null;
+			}
+		}
+
 		/// <summary>Parse a date input string matching the GNU input date format.</summary>
 		/// <param name="input">The date input string.</param>
 		/// <param name="initial">The initial date to which to apply relative formats.</param>

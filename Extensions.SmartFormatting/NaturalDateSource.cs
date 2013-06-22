@@ -1,4 +1,5 @@
 ﻿using System;
+using Pathoschild.NaturalTimeParser.Parser;
 using SmartFormat.Core.Extensions;
 using SmartFormat.Core.Parsing;
 
@@ -15,29 +16,14 @@ namespace Pathoschild.NaturalTimeParser.Extensions.SmartFormatting
 		/// <param name="formatDetails">The format metadata.</param>
 		public void EvaluateSelector(object current, Selector selector, ref bool handled, ref object result, FormatDetails formatDetails)
 		{
-			string token = selector.Text.ToLower();
-			switch (token)
-			{
-				case "now":
-					result = DateTime.Now;
-					handled = true;
-					return;
+			// parse date
+			DateTime? parsed = new TimeParser().ParseName(selector.Text);
+			if (!parsed.HasValue)
+				return;
 
-				case "today":
-					result = DateTime.Now.Date;
-					handled = true;
-					return;
-
-				case "nowutc":
-					result = DateTime.UtcNow;
-					handled = true;
-					return;
-
-				case "todayutc":
-					result = DateTime.UtcNow.Date;
-					handled = true;
-					return;
-			}
+			// apply token
+			result = parsed;
+			handled = true;
 		}
 	}
 }

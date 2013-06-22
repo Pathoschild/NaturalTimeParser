@@ -5,8 +5,8 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Parser")]
-[assembly: AssemblyDescription("A partial implementation of natural time formats like 'last month +3 days' which can be used in date arithmetic.")]
+[assembly: AssemblyTitle("Extensions.DotLiquid")]
+[assembly: AssemblyDescription("Provides a DotLiquid filter for using natural dates in templates.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("Pathoschild.NaturalTimeParser")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("1483fad9-d196-46a7-9f66-738ccd7359a7")]
+[assembly: Guid("f6c3381e-4114-4668-8643-10909116f13e")]
 
 // Version information for an assembly consists of the following four values:
 //

@@ -2,8 +2,7 @@
 <package >
 	<metadata>
 		<id>Pathoschild.NaturalTimeParser</id>
-		<title>Natural time parser</title>
-		<version>0.1.0-alpha</version>
+		<version>0.2.0-alpha</version>
 		<authors>Jesse Plamondon-Willard</authors>
 		<description>A partial C# implementation of natural time formats like "last month +3 days" which can be used in date arithmetic.</description>
 		<licenseUrl>https://creativecommons.org/licenses/by/3.0/</licenseUrl>

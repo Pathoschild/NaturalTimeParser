@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using NUnit.Framework;
+using Pathoschild.NaturalTimeParser.Parser;
 using Pathoschild.NaturalTimeParser.Parser.Plugins;
 using Pathoschild.NaturalTimeParser.Parser.Tokenization;
 

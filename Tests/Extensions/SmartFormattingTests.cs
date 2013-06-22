@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using NUnit.Framework;
 using Pathoschild.NaturalTimeParser.Extensions.SmartFormatting;
 using SmartFormat;
@@ -26,21 +27,21 @@ namespace Pathoschild.NaturalTimeParser.Tests.Extensions
 		public void Source_Now_TokenReplacedWithExpectedValue()
 		{
 			string withSource = this.GetFormatter().Format("{Now:yyyy-MM-dd HH:mm|1 hour ago}");
-			string withoutSource = this.GetFormatter().Format("{Date:yyyy-MM-dd HH:mm|1 hour ago}", new { Date = DateTime.UtcNow });
+			string withoutSource = this.GetFormatter().Format("{Date:yyyy-MM-dd HH:mm|1 hour ago}", new { Date = DateTime.Now });
 
 			Assert.AreEqual(withoutSource, withSource);
 		}
 
 		[Test(Description = "Assert that the formatter plugin returns the correct output for an offset date token.")]
-		[TestCase("{Date}", Result = "2000-01-01 12:00:00 AM")]
+		[TestCase("{Date}", Result = "01/01/2000 00:00:00")]
 		[TestCase("{Date:yyyy-MM-dd}", Result = "2000-01-01")]
-		[TestCase("{Date:|10 years 2 months 3 days}", Result = "2010-03-04 12:00:00 AM")]
+		[TestCase("{Date:|10 years 2 months 3 days}", Result = "2010-03-04 00:00:00")]
 		[TestCase("{Date:yyyy|-1 year}", Result = "1999")]
 		[TestCase("{Date:yyyy-MM-dd|1 day ago}", Result = "1999-12-31")]
 		[TestCase("{Date:yyyy-MM-dd|1 day ago|extra|values|ignored}", Result = "1999-12-31")]
 		public string Formatter_BuildsExpectedOutput(string format)
 		{
-			return this.GetFormatter().Format(format, new { Date = new DateTime(2000, 1, 1) });
+			return this.GetFormatter().Format(CultureInfo.InvariantCulture, format, new { Date = new DateTime(2000, 1, 1) });
 		}
 
 		[Test(Description = "Assert that the formatter plugin correctly handles errors and respects the configured error action.")]
@@ -49,7 +50,7 @@ namespace Pathoschild.NaturalTimeParser.Tests.Extensions
 		[TestCase("{Date:yyyy-MM-dd|invalid}", ErrorAction.ThrowError, ExpectedException = typeof(SmartFormat.Core.FormatException))]
 		public string Formatter_RespectsErrorAction(string format, ErrorAction errorAction)
 		{
-			return this.GetFormatter(errorAction).Format(format, new { Date = new DateTime(2000, 1, 1) });
+			return this.GetFormatter(errorAction).Format(CultureInfo.InvariantCulture, format, new { Date = new DateTime(2000, 1, 1) });
 		}
 
 

@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <package>
   <metadata>
-    <id>Pathoschild.NaturalTimeParser.SmartFormat</id>
+    <id>Pathoschild.NaturalTimeParser.DotLiquid</id>
     <version>0.2.0-alpha</version>
     <authors>Jesse Plamondon-Willard</authors>
-    <description>Provides a SmartFormat plugin which adds relative time tokens like '{Today}' and arithmetic like "last month +3 days", which enables string format strings like {Today:yyyy-MM-dd|-3 days}. See the project page for usage.</description>
+    <description>Provides a DotLiquid filter which enables date arithmetic like {{ blog.date | date_add:'3 days' }} and tokens like {{ 'today' | date:'yyyy-mm-dd' }}. See the project page for usage.</description>
     <licenseUrl>https://creativecommons.org/licenses/by/3.0/</licenseUrl>
     <projectUrl>https://github.com/Pathoschild/NaturalTimeParser#readme</projectUrl>
     <iconUrl>https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/Noun_project_3067.svg/128px-Noun_project_3067.svg.png</iconUrl>
@@ -12,7 +12,7 @@
     <tags>datetime string.format</tags>
     <dependencies>
       <dependency id="Pathoschild.NaturalTimeParser" />
-      <dependency id="SmartFormat.NET" />
+      <dependency id="DotLiquid" />
     </dependencies>
   </metadata>
 </package>

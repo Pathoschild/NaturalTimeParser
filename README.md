@@ -1,11 +1,12 @@
-﻿**Pathoschild.NaturalTimeParser** provides a partial C# implementation of natural time formats in the
+﻿**Pathoschild.NaturalTimeParser** implements part of the
 [GNU date input format](http://www.gnu.org/software/tar/manual/html_node/Date-input-formats.html).
-This currently lets you perform arithmetic with natural date strings (like
-`DateTime.Now.Offset("+5 days 14 hours -2 minutes")`), and will eventually support creating
-dates from natural time formats (like `"last month +2 days"`).
+It lets you use date math with natural date strings (like
+`DateTime.Now.Offset("+5 days 14 hours -2 minutes")`), and will eventually support creating dates
+from natural time formats (like `"last month +2 days"`). The parser can be used by itself, or
+integrated with a templating engine like DotLiquid or SmartFormat.NET (see details below).
 
-This is mainly a proof of concept so far. Contributions to make it more usable in production are
-welcome.
+This is used in at least one production system, so it's reasonably robust. Contributions to further
+develop the library are welcome.
 
 ## Usage
 Download the [`Pathoschild.NaturalTimeParser` NuGet package](https://nuget.org/packages/Pathoschild.NaturalTimeParser/)
@@ -13,8 +14,8 @@ and reference the `Pathoschild.NaturalTimeParser` namespace. This lets you apply
 to a date:
 ```c#
    // both lines are equivalent
-   DateTime.Now.Offset("2 years ago");
-   TimeParser.Default.Parse("2 years ago");
+   DateTime result = DateTime.Now.Offset("2 years ago");
+   DateTime result = TimeParser.Default.Parse("2 years ago");
 ```
 
 ### Relative time units (date arithmetic)
@@ -32,8 +33,29 @@ You can also chain relative units:
 * `1 year -2 fortnights` (almost 11 months from now)
 * `1 year ago 1 year` (today; equivalent to `-1 year +1 year`)
 
-### Integrated with SmartFormat
-The parser is also available as a plugin for [SmartFormat.NET](https://github.com/scottrippey/SmartFormat.NET)
+### Integrated with template engines
+##### DotLiquid
+The parser is available as a plugin for [DotLiquid](http://dotliquidmarkup.org/) through the
+`Pathoschild.NaturalTimeParser.DotLiquid` NuGet package. DotLiquid is a safe templating library
+that lets you format strings with token replacement, basic logic, and text transforms. For example,
+this lets us format messages like this:
+```c#
+   Template.RegisterFilter(typeof(NaturalDateFilter));
+   string message = "Your trial will expire in 30 days (on {{ 'today' | as_date | date_offset:'30 days' | date:'yyyy-MM-dd' }}).";
+   message = Template.Parse(message).Render(); // "Your trial will expire in 30 days (on 2013-06-01)."
+```
+
+The plugin adds four custom tokens (`{Today}`/`{TodayUTC}` for the current local/UTC date, and
+`{Now}`/`{NowUTC}` for the current local/UTC date & time) and adds support for applying relative
+time units to any date. For example, you can format an arbitrary date token:
+```c#
+   Template.RegisterFilter(typeof(NaturalDateFilter));
+   string message = "Your trial will expire in a long time (on {{ expiry_date | date_offset:'30 days' | date:'yyyy-MM-dd' }}).";
+   message = Template.Parse(message).Render(Hash.FromAnonymousObject(new { ExpiryDate = new DateTime(2050, 01, 01) } }); // "Your trial will expire in a long time (on 2050-01-31)."
+```
+
+##### SmartFormat
+The parser is available as a plugin for [SmartFormat.NET](https://github.com/scottrippey/SmartFormat.NET)
 through the `Pathoschild.NaturalTimeParser.SmartFormat` NuGet package. SmartFormat is a string
 composition library that enables advanced token replacement. For example, this lets us format
 messages like this:
@@ -52,8 +74,7 @@ time units to any date. For example, you can format an arbitrary date token:
    message = formatter.Format(message, new { ExpiryDate = new DateTime(2050, 01, 01) }); // "Your trial will expire in a long time (on 2050-01-31).";
 ```
 
-
-## Extending support
+## Extending the parser
 ### Localization
 The default implementation is English but can support other languages. For example, you can enable
 relative time units in French:

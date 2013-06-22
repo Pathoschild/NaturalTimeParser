@@ -52,5 +52,17 @@ namespace Pathoschild.NaturalTimeParser.Tests
 			DateTime? date = new TimeParser().Parse(format, new DateTime(2000, 1, 1));
 			return TestHelpers.GetRepresentation(date);
 		}
+
+		[Test(Description = "Assert that valid names are supported for the ParseName method.")]
+		public void CanParseName()
+		{
+			TimeParser parser = new TimeParser();
+			Assert.AreEqual(DateTime.Today, parser.ParseName("today"), "The 'today' name returned an unexpected value.");
+			Assert.AreEqual(DateTime.UtcNow.Date, parser.ParseName("todayUTC"), "The 'todayUTC' name returned an unexpected value.");
+			Assert.AreEqual(DateTime.Now, parser.ParseName("now"), "The 'now' name returned an unexpected value.");
+			Assert.AreEqual(DateTime.UtcNow, parser.ParseName("nowUTC"), "The 'nowUTC' name returned an unexpected value.");
+		}
+
+
 	}
 }
