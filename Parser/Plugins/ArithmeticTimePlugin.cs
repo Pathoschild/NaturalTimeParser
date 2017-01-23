@@ -14,7 +14,7 @@ namespace Pathoschild.NaturalTimeParser.Parser.Plugins
 		** Properties
 		*********/
 		/// <summary>The regular expression that matches the date tokens in the input expression.</summary>
-		protected readonly Regex ParsePattern = new Regex(@"^(?<expression>\s*((?<sign>[\+\-]{0,1})\s*(?<value>\d*))?\s*\b(?<unit>\w+)\b(?<negate>(\s*\bago\b)?)\s*)+", RegexOptions.Compiled | RegexOptions.ExplicitCapture);
+		protected readonly Regex ParsePattern = new Regex(@"^(?<expression>\s*((?<sign>[\+\-and]{0,3})\s*(?<value>\d*))?\s*\b(?<unit>\w+)\b(?<negate>(\s*\bago\b)?)\s*)+", RegexOptions.Compiled | RegexOptions.ExplicitCapture);
 
 
 		/*********

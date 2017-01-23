@@ -32,6 +32,7 @@ You can also chain relative units:
 * `1 year 2 months` (14 months from now)
 * `1 year -2 fortnights` (almost 11 months from now)
 * `1 year ago 1 year` (today; equivalent to `-1 year +1 year`)
+* `1 year ago and 5 days ago` (5 days ago last year; equivalent to `-1 year -5 days`)
 
 ### Integrated with template engines
 ##### DotLiquid
