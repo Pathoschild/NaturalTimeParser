@@ -86,6 +86,7 @@ namespace Pathoschild.NaturalTimeParser.Tests.Plugins
 		[TestCase("15 years 3 months 2 hours", Result = "[Years:15][Months:3][Hours:2]")]
 		[TestCase("15 years -12 months 2 fortnights 3 weeks -17 days ago -hours 2 minutes secs", Result = "[Years:15][Months:-12][Fortnights:2][Weeks:3][Days:17][Hours:-1][Minutes:2][Seconds:1]")]
 		[TestCase("15 years -months +months ago -2 fortnights 3 weeks -17 days ago -hours 2 minutes secs", Result = "[Years:15][Months:-1][Months:-1][Fortnights:-2][Weeks:3][Days:17][Hours:-1][Minutes:2][Seconds:1]")]
+        [TestCase("1 year ago and 5 days ago", Result = "[Years:-1][Days:-5]")]
 		public string Tokenize_CanChainUnits(string format)
 		{
 			return this.Tokenize(new ArithmeticTimePlugin(), format);
