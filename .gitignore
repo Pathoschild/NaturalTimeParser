@@ -12,3 +12,10 @@ packages/*
 [Rr]elease*/
 _ReSharper*/
 *.orig
+/.vs/Pathoschild.NaturalTimeParser/v16/Server/sqlite3/db.lock
+/.vs/Pathoschild.NaturalTimeParser/v16/Server/sqlite3/storage.ide
+/.vs/Pathoschild.NaturalTimeParser/v16/Server/sqlite3/storage.ide-shm
+/.vs/Pathoschild.NaturalTimeParser/v16/Server/sqlite3/storage.ide-wal
+/.vs/Pathoschild.NaturalTimeParser/DesignTimeBuild/.dtbcache
+/.vs/Pathoschild.NaturalTimeParser/v16/TestStore/0/000-0000.testlog
+/.vs/Pathoschild.NaturalTimeParser/v16/TestStore/0/testlog.manifest
